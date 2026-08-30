@@ -1,26 +1,150 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Primary */
+  --color-primary-500: #f59e0b;
+  --color-primary-400: #d97706;
+  --color-primary-300: #fbbf24;
+  --color-primary-200: #fcd34d;
+  --color-primary-100: #fef3c7;
+
+  /* Neutral */
+  --color-neutral-900: #0b0b0d;
+  --color-neutral-800: #111214;
+  --color-neutral-700: #1a181f;
+  --color-neutral-600: #23262b;
+  --color-neutral-500: #2f3338;
+  --color-neutral-400: #4b5158;
+  --color-neutral-300: #687280;
+  --color-neutral-200: #9ca3af;
+  --color-neutral-100: #e5e7eb;
+  --color-neutral-0: #ffffff;
+
+  /* Semantic */
+  --background: var(--color-neutral-900);
+  --foreground: var(--color-neutral-0);
+  --surface: var(--color-neutral-800);
+  --border: var(--color-neutral-500);
+  --muted: var(--color-neutral-300);
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.6);
+  --shadow-xl: 0 24px 60px rgba(0, 0, 0, 0.7);
+
+  /* Spacing base unit: 4px */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-400: var(--color-primary-400);
+  --color-primary-300: var(--color-primary-300);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-100: var(--color-primary-100);
+
+  --color-neutral-900: var(--color-neutral-900);
+  --color-neutral-800: var(--color-neutral-800);
+  --color-neutral-700: var(--color-neutral-700);
+  --color-neutral-600: var(--color-neutral-600);
+  --color-neutral-500: var(--color-neutral-500);
+  --color-neutral-400: var(--color-neutral-400);
+  --color-neutral-300: var(--color-neutral-300);
+  --color-neutral-200: var(--color-neutral-200);
+  --color-neutral-100: var(--color-neutral-100);
+  --color-neutral-0: var(--color-neutral-0);
+
+  --radius-xs: var(--radius-xs);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-sans: var(--font-inter), Arial, Helvetica, sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+
+/* Type scale */
+.text-display-1 {
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 56px;
+  font-weight: 700;
+}
+
+.text-display-2 {
+  font-family: var(--font-display);
+  font-size: 36px;
+  line-height: 44px;
+  font-weight: 700;
+}
+
+.text-h1 {
+  font-size: 28px;
+  line-height: 36px;
+  font-weight: 600;
+}
+
+.text-h2 {
+  font-size: 22px;
+  line-height: 30px;
+  font-weight: 600;
+}
+
+.text-h3 {
+  font-size: 18px;
+  line-height: 26px;
+  font-weight: 500;
+}
+
+.text-body-lg {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+}
+
+.text-body {
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+.text-small {
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 400;
 }
