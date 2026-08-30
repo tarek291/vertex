@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# clerk skill symlinks (machine-specific abs paths; real content lives in .agents/skills)
+.claude/skills/clerk
+.claude/skills/clerk-*

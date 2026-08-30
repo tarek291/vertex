@@ -1,4 +1,10 @@
-import { Bell, ChevronLeft, ChevronRight, Triangle, User } from "lucide-react";
+import {
+  Show,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
+import { Bell, ChevronLeft, ChevronRight, Triangle } from "lucide-react";
 import Link from "next/link";
 
 export function Navbar() {
@@ -31,7 +37,7 @@ export function Navbar() {
             </Link>
           </div>
         </div>
-        <div className="flex items-center gap-5">
+        <div className="flex items-center gap-4">
           <button
             type="button"
             aria-label="Notifications"
@@ -39,9 +45,33 @@ export function Navbar() {
           >
             <Bell size={20} strokeWidth={2} />
           </button>
-          <span className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-primary-500 bg-neutral-700 text-neutral-200">
-            <User size={18} strokeWidth={2} />
-          </span>
+          <Show when="signed-out">
+            <SignInButton mode="modal">
+              <button
+                type="button"
+                className="text-body text-neutral-200 hover:text-primary-300"
+              >
+                Sign in
+              </button>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <button
+                type="button"
+                className="rounded-md bg-primary-500 px-4 py-2 text-body font-medium text-neutral-900 hover:bg-primary-400"
+              >
+                Sign up
+              </button>
+            </SignUpButton>
+          </Show>
+          <Show when="signed-in">
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonAvatarBox: "h-9 w-9 border border-primary-500",
+                },
+              }}
+            />
+          </Show>
         </div>
       </div>
     </nav>
