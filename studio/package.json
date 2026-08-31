@@ -1,0 +1,32 @@
+{
+  "name": "vertex-studio",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "dotenv -e ../.env.local -e ../.env -- sanity dev",
+    "start": "dotenv -e ../.env.local -e ../.env -- sanity start",
+    "build": "dotenv -e ../.env.local -e ../.env -- sanity build",
+    "deploy": "dotenv -e ../.env.local -e ../.env -- sanity deploy",
+    "deploy:schema": "dotenv -e ../.env.local -e ../.env -- sanity schema deploy",
+    "typegen:extract": "dotenv -e ../.env.local -e ../.env -- sanity schema extract",
+    "typegen:generate": "dotenv -e ../.env.local -e ../.env -- sanity typegen generate",
+    "typegen": "npm run typegen:extract && npm run typegen:generate",
+    "check:types": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@sanity/icons": "^3.8.0",
+    "@sanity/vision": "^5.31.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "sanity": "^5.31.2",
+    "styled-components": "^6.5.3"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^5.0.1",
+    "@types/react": "^19",
+    "dotenv-cli": "^7.4.4",
+    "eslint": "^9",
+    "typescript": "^5"
+  }
+}
