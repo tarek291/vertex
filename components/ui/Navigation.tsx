@@ -1,24 +1,79 @@
-import { ChevronLeft, ChevronRight, Triangle } from "lucide-react";
+import {
+  Show,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs";
+import { Bell, ChevronLeft, ChevronRight, Triangle } from "lucide-react";
 import Link from "next/link";
 
 export function Navbar() {
   return (
-    <nav className="flex items-center gap-8 border-b border-neutral-600 px-8 py-4">
-      <div className="flex items-center gap-2">
-        <Triangle
-          size={18}
-          strokeWidth={0}
-          fill="currentColor"
-          className="text-primary-500"
-        />
-        <span className="text-h3 font-display">Vertex</span>
+    <nav className="border-b border-neutral-600 px-8 py-4">
+      <div className="mx-auto flex max-w-[1440px] items-center justify-between">
+        <div className="flex items-center gap-8">
+          <Link href="/" className="flex items-center gap-2">
+            <Triangle
+              size={18}
+              strokeWidth={0}
+              fill="currentColor"
+              className="text-primary-500"
+            />
+            <span className="text-h3 font-display">Vertex</span>
+          </Link>
+          <div className="flex items-center gap-6">
+            <Link
+              href="#"
+              aria-current="page"
+              className="text-body text-primary-300"
+            >
+              Courses
+            </Link>
+            <Link
+              href="#"
+              className="text-body text-neutral-200 hover:text-primary-300"
+            >
+              My Learning
+            </Link>
+          </div>
+        </div>
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            aria-label="Notifications"
+            className="text-neutral-200 hover:text-primary-300"
+          >
+            <Bell size={20} strokeWidth={2} />
+          </button>
+          <Show when="signed-out">
+            <SignInButton mode="modal">
+              <button
+                type="button"
+                className="text-body text-neutral-200 hover:text-primary-300"
+              >
+                Sign in
+              </button>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <button
+                type="button"
+                className="rounded-md bg-primary-500 px-4 py-2 text-body font-medium text-neutral-900 hover:bg-primary-400"
+              >
+                Sign up
+              </button>
+            </SignUpButton>
+          </Show>
+          <Show when="signed-in">
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonAvatarBox: "h-9 w-9 border border-primary-500",
+                },
+              }}
+            />
+          </Show>
+        </div>
       </div>
-      <Link href="#" className="text-body text-neutral-100 hover:text-primary-300">
-        Courses
-      </Link>
-      <Link href="#" className="text-body text-neutral-100 hover:text-primary-300">
-        My Learning
-      </Link>
     </nav>
   );
 }
