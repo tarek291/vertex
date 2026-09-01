@@ -15,58 +15,70 @@ import {
   LESSON_SLUGS_QUERY,
 } from '../queries'
 import { serverClient } from './client'
-import { sanityFetch } from './live'
+import type {
+  CATEGORIES_QUERY_RESULT,
+  CATEGORY_BY_SLUG_QUERY_RESULT,
+  COURSE_BY_SLUG_QUERY_RESULT,
+  COURSE_SLUGS_QUERY_RESULT,
+  COURSES_QUERY_RESULT,
+  FEATURED_COURSES_QUERY_RESULT,
+  INSTRUCTOR_BY_SLUG_QUERY_RESULT,
+  INSTRUCTORS_QUERY_RESULT,
+  LESSON_BY_SLUG_QUERY_RESULT,
+  LESSON_SLUGS_QUERY_RESULT,
+} from '@/sanity.types'
 
 /**
  * Server-only data access layer. Pages call these instead of touching the
- * Sanity client directly. Reads go through `sanityFetch` (Live Content API);
- * static-params helpers use the tokened `serverClient` with published
- * perspective and stega disabled.
+ * Sanity client directly.
+ *
+ * All reads go through the tokened, no-CDN `serverClient` with the published
+ * perspective and stega disabled. The dataset is private, so a token is
+ * required even for published content — `next-sanity`'s Live `sanityFetch()`
+ * only attaches the token for draft perspectives, so it cannot read this
+ * dataset and is not used here. `<SanityLive />` in the root layout still
+ * drives client-side revalidation on published-content changes.
+ *
+ * TypeGen currently emits the per-query `*_RESULT` types but not the
+ * `@sanity/client` `SanityQueries` augmentation, so `client.fetch` infers
+ * `unknown`; each result is cast to its generated type.
  */
 
-export const getCourses = cache(async () => {
-  const { data } = await sanityFetch({ query: COURSES_QUERY })
-  return data
-})
+const fetchOptions = { perspective: 'published', stega: false } as const
 
-export const getFeaturedCourses = cache(async () => {
-  const { data } = await sanityFetch({ query: FEATURED_COURSES_QUERY })
-  return data
-})
+const query = cache(
+  async <T>(groqQuery: string, params: Record<string, unknown> = {}) => {
+    return serverClient.fetch(groqQuery, params, fetchOptions) as Promise<T>
+  }
+)
 
-export const getCourseBySlug = cache(async (slug: string) => {
-  const { data } = await sanityFetch({
-    query: COURSE_BY_SLUG_QUERY,
-    params: { slug },
-  })
-  return data
-})
+export const getCourses = cache(() =>
+  query<COURSES_QUERY_RESULT>(COURSES_QUERY)
+)
 
-export const getInstructors = cache(async () => {
-  const { data } = await sanityFetch({ query: INSTRUCTORS_QUERY })
-  return data
-})
+export const getFeaturedCourses = cache(() =>
+  query<FEATURED_COURSES_QUERY_RESULT>(FEATURED_COURSES_QUERY)
+)
 
-export const getInstructorBySlug = cache(async (slug: string) => {
-  const { data } = await sanityFetch({
-    query: INSTRUCTOR_BY_SLUG_QUERY,
-    params: { slug },
-  })
-  return data
-})
+export const getCourseBySlug = cache((slug: string) =>
+  query<COURSE_BY_SLUG_QUERY_RESULT>(COURSE_BY_SLUG_QUERY, { slug })
+)
 
-export const getCategories = cache(async () => {
-  const { data } = await sanityFetch({ query: CATEGORIES_QUERY })
-  return data
-})
+export const getInstructors = cache(() =>
+  query<INSTRUCTORS_QUERY_RESULT>(INSTRUCTORS_QUERY)
+)
 
-export const getCategoryBySlug = cache(async (slug: string) => {
-  const { data } = await sanityFetch({
-    query: CATEGORY_BY_SLUG_QUERY,
-    params: { slug },
-  })
-  return data
-})
+export const getInstructorBySlug = cache((slug: string) =>
+  query<INSTRUCTOR_BY_SLUG_QUERY_RESULT>(INSTRUCTOR_BY_SLUG_QUERY, { slug })
+)
+
+export const getCategories = cache(() =>
+  query<CATEGORIES_QUERY_RESULT>(CATEGORIES_QUERY)
+)
+
+export const getCategoryBySlug = cache((slug: string) =>
+  query<CATEGORY_BY_SLUG_QUERY_RESULT>(CATEGORY_BY_SLUG_QUERY, { slug })
+)
 
 type LessonCurriculumModule = {
   _key: string
@@ -80,9 +92,8 @@ type LessonCurriculumModule = {
  * `Lesson X.Y` numbers computed from array order.
  */
 export const getLessonBySlug = cache(async (slug: string) => {
-  const { data: lesson } = await sanityFetch({
-    query: LESSON_BY_SLUG_QUERY,
-    params: { slug },
+  const lesson = await query<LESSON_BY_SLUG_QUERY_RESULT>(LESSON_BY_SLUG_QUERY, {
+    slug,
   })
   if (!lesson) return null
 
@@ -123,18 +134,10 @@ export const getLessonBySlug = cache(async (slug: string) => {
   }
 })
 
-export const getCourseSlugs = cache(async () => {
-  return serverClient.fetch(
-    COURSE_SLUGS_QUERY,
-    {},
-    { perspective: 'published', stega: false }
-  )
-})
+export const getCourseSlugs = cache(() =>
+  query<COURSE_SLUGS_QUERY_RESULT>(COURSE_SLUGS_QUERY)
+)
 
-export const getLessonSlugs = cache(async () => {
-  return serverClient.fetch(
-    LESSON_SLUGS_QUERY,
-    {},
-    { perspective: 'published', stega: false }
-  )
-})
+export const getLessonSlugs = cache(() =>
+  query<LESSON_SLUGS_QUERY_RESULT>(LESSON_SLUGS_QUERY)
+)

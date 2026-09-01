@@ -1,42 +1,9 @@
 import { ArrowRight, Search, Sparkles, Star, ZoomIn } from "lucide-react";
+import Link from "next/link";
+import { CourseGrid } from "@/components/course/CourseGrid";
 import { Button } from "@/components/ui/Button";
-import { CourseCard } from "@/components/ui/Card";
-import { CourseIcon } from "@/components/ui/CourseIcon";
 import { Navbar } from "@/components/ui/Navigation";
-
-// TODO: source from Sanity once the content model exists.
-const COURSES = [
-  {
-    title: "Next.js for Production",
-    description:
-      "Build scalable, high-performance web applications with Next.js.",
-    level: "Intermediate",
-    duration: "18h 24m",
-    modules: "12 modules",
-    highlighted: true,
-    icon: <CourseIcon label="N" className="bg-neutral-900 text-neutral-0" />,
-  },
-  {
-    title: "Docker Essentials",
-    description:
-      "Containerize applications and streamline your development workflow.",
-    level: "Beginner",
-    duration: "10h 12m",
-    modules: "8 modules",
-    highlighted: false,
-    icon: <CourseIcon label="D" className="bg-[#0db7ed] text-neutral-0" />,
-  },
-  {
-    title: "TypeScript Deep Dive",
-    description:
-      "Go beyond the basics and write safer, more expressive code.",
-    level: "Intermediate",
-    duration: "14h 36m",
-    modules: "10 modules",
-    highlighted: false,
-    icon: <CourseIcon label="TS" className="bg-[#3178c6] text-neutral-0" />,
-  },
-];
+import { getCourses } from "@/sanity/lib/api";
 
 function HeroSearch() {
   return (
@@ -105,32 +72,23 @@ function Hero() {
   );
 }
 
-function AllCourses() {
+async function AllCourses() {
+  const courses = await getCourses();
+
   return (
     <section className="mx-auto max-w-[1440px] px-8 py-16">
       <div className="flex items-end justify-between">
         <h2 className="text-display-2 font-display">All Courses</h2>
-        <a
-          href="#"
+        <Link
+          href="/courses"
           className="inline-flex items-center gap-2 text-body text-primary-300 hover:text-primary-200"
         >
           View all courses
           <ArrowRight size={16} strokeWidth={2} />
-        </a>
+        </Link>
       </div>
-      <div className="mt-8 grid gap-6 md:grid-cols-3">
-        {COURSES.map((course) => (
-          <CourseCard
-            key={course.title}
-            icon={course.icon}
-            title={course.title}
-            description={course.description}
-            level={course.level}
-            duration={course.duration}
-            modules={course.modules}
-            highlighted={course.highlighted}
-          />
-        ))}
+      <div className="mt-8">
+        <CourseGrid courses={courses} />
       </div>
     </section>
   );
