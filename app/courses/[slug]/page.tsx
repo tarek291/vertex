@@ -1,7 +1,6 @@
 import {
   ArrowRight,
   BarChart3,
-  Bookmark,
   ChevronRight,
   Clock,
   Code,
@@ -24,12 +23,16 @@ import {
   type CourseContentModule,
 } from "@/components/course/CourseContent";
 import {
+  BookmarkButton,
+  ContinueLearningLink,
+  CourseViewTracker,
+} from "@/components/course/CoursePageActions";
+import {
   capitalize,
   formatCount,
   formatHms,
 } from "@/components/course/courseFormat";
 import { Badge } from "@/components/ui/Badge";
-import { Button } from "@/components/ui/Button";
 import { Navbar } from "@/components/ui/Navigation";
 import { ProgressBar } from "@/components/ui/ProgressBar";
 import { getCourseBySlug, getCourseSlugs } from "@/sanity/lib/api";
@@ -135,18 +138,23 @@ export default async function CoursePage({
   const outcomes = learningOutcomes ?? [];
 
   const ContinueButton = (
-    <Button
-      variant="primary"
-      size="lg"
-      icon={<ArrowRight size={18} strokeWidth={2} />}
-      className="bg-gradient-to-b from-primary-300 to-primary-500 shadow-lg hover:from-primary-200 hover:to-primary-400"
+    <button
+      type="button"
+      className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-gradient-to-b from-primary-300 to-primary-500 px-6 font-medium text-sm text-neutral-900 shadow-lg transition-colors hover:from-primary-200 hover:to-primary-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-300"
     >
       Continue Learning
-    </Button>
+      <ArrowRight size={18} strokeWidth={2} />
+    </button>
   );
 
   return (
     <div className="flex-1 pb-24">
+      <CourseViewTracker
+        courseTitle={title ?? ""}
+        courseSlug={slug}
+        courseLevel={level ?? null}
+        isPopular={popular ?? false}
+      />
       <Navbar />
 
       <main>
@@ -238,11 +246,10 @@ export default async function CoursePage({
               </div>
 
               <div className="mt-8 flex flex-wrap items-center gap-4">
-                <Link href={continueHref}>{ContinueButton}</Link>
-                <Button variant="secondary" size="lg">
-                  <Bookmark size={16} strokeWidth={2} />
-                  Bookmark
-                </Button>
+                <ContinueLearningLink href={continueHref} courseTitle={title ?? ""} courseSlug={slug}>
+                  {ContinueButton}
+                </ContinueLearningLink>
+                <BookmarkButton courseTitle={title ?? ""} courseSlug={slug} />
               </div>
             </div>
           </div>
@@ -297,9 +304,9 @@ export default async function CoursePage({
               <ProgressBar percent={PLACEHOLDER_PROGRESS_PERCENT} />
             </div>
           </div>
-          <Link href={continueHref} className="shrink-0">
+          <ContinueLearningLink href={continueHref} courseTitle={title ?? ""} courseSlug={slug} className="shrink-0">
             {ContinueButton}
-          </Link>
+          </ContinueLearningLink>
         </div>
       </div>
     </div>

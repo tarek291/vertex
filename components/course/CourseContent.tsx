@@ -3,6 +3,7 @@
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import posthog from "posthog-js";
 import { Badge } from "@/components/ui/Badge";
 import { formatClock, formatHms } from "./courseFormat";
 
@@ -35,11 +36,23 @@ function ModuleRow({
 }) {
   const [open, setOpen] = useState(false);
 
+  const handleModuleToggle = () => {
+    const next = !open;
+    setOpen(next);
+    if (next) {
+      posthog.capture("course_module_expanded", {
+        module_title: module.title,
+        module_number: moduleNumber,
+        lesson_count: module.lessons.length,
+      });
+    }
+  };
+
   return (
     <div>
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={handleModuleToggle}
         aria-expanded={open}
         className="flex w-full items-center gap-4 px-4 py-5 text-left sm:px-6"
       >
@@ -92,6 +105,15 @@ function ModuleRow({
                   <Link
                     href={`/lessons/${lesson.slug}`}
                     className="block rounded-sm hover:bg-neutral-800/60"
+                    onClick={() =>
+                      posthog.capture("lesson_clicked", {
+                        lesson_title: lesson.title,
+                        lesson_slug: lesson.slug,
+                        module_title: module.title,
+                        module_number: moduleNumber,
+                        free_preview: lesson.freePreview,
+                      })
+                    }
                   >
                     {row}
                   </Link>
@@ -139,7 +161,15 @@ export function CourseContent({
         <div className="mt-6 flex justify-center">
           <button
             type="button"
-            onClick={() => setShowAll((v) => !v)}
+            onClick={() => {
+              const next = !showAll;
+              setShowAll(next);
+              if (next) {
+                posthog.capture("show_all_modules_clicked", {
+                  total_modules: modules.length,
+                });
+              }
+            }}
             className="inline-flex items-center gap-2 text-body text-primary-300 hover:text-primary-200"
           >
             {showAll ? "Show less" : `Show all ${modules.length} modules`}

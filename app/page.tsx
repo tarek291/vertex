@@ -1,7 +1,7 @@
 import { ArrowRight, Search, Sparkles, Star, ZoomIn } from "lucide-react";
 import Link from "next/link";
 import { CourseGrid } from "@/components/course/CourseGrid";
-import { Button } from "@/components/ui/Button";
+import { ExploreCoursesButton } from "@/components/ui/ExploreCoursesButton";
 import { Navbar } from "@/components/ui/Navigation";
 import { getCourses } from "@/sanity/lib/api";
 
@@ -54,14 +54,7 @@ function Hero() {
           >
             <ZoomIn size={18} strokeWidth={2} />
           </span>
-          <Button
-            variant="primary"
-            size="lg"
-            icon={<ArrowRight size={18} strokeWidth={2} />}
-            className="bg-gradient-to-b from-primary-300 to-primary-500 shadow-lg hover:from-primary-200 hover:to-primary-400"
-          >
-            Explore Courses
-          </Button>
+          <ExploreCoursesButton />
         </div>
 
         <div className="mt-8 flex w-full justify-center">

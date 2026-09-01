@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import posthog from "posthog-js";
 import type { COURSES_QUERY_RESULT } from "@/sanity.types";
 import { CourseCard } from "@/components/ui/Card";
 import { CourseIcon } from "@/components/ui/CourseIcon";
@@ -12,7 +15,18 @@ export function CourseGrid({ courses }: { courses: COURSES_QUERY_RESULT }) {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {courses.map((course) => (
-        <Link key={course._id} href={`/courses/${course.slug}`}>
+        <Link
+          key={course._id}
+          href={`/courses/${course.slug}`}
+          onClick={() =>
+            posthog.capture("course_card_clicked", {
+              course_title: course.title ?? "Untitled course",
+              course_slug: course.slug,
+              course_level: course.level ?? "All levels",
+              is_popular: course.popular ?? false,
+            })
+          }
+        >
           <CourseCard
             icon={
               <CourseIcon
