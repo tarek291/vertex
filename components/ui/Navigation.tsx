@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Show,
   SignInButton,
@@ -6,6 +8,7 @@ import {
 } from "@clerk/nextjs";
 import { Bell, ChevronLeft, ChevronRight, Triangle } from "lucide-react";
 import Link from "next/link";
+import posthog from "posthog-js";
 
 export function Navbar() {
   return (
@@ -50,6 +53,7 @@ export function Navbar() {
               <button
                 type="button"
                 className="text-body text-neutral-200 hover:text-primary-300"
+                onClick={() => posthog.capture("sign_in_clicked", { source: "navbar" })}
               >
                 Sign in
               </button>
@@ -58,6 +62,7 @@ export function Navbar() {
               <button
                 type="button"
                 className="rounded-md bg-primary-500 px-4 py-2 text-body font-medium text-neutral-900 hover:bg-primary-400"
+                onClick={() => posthog.capture("sign_up_clicked", { source: "navbar" })}
               >
                 Sign up
               </button>

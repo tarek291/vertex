@@ -2,6 +2,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import { SanityLive } from "@/sanity/lib/live";
+import { PostHogIdentify } from "@/components/PostHogIdentify";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full flex flex-col bg-neutral-900 text-neutral-0">
         <ClerkProvider>
+          <PostHogIdentify />
           {children}
         </ClerkProvider>
         <SanityLive />
