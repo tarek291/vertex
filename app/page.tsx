@@ -1,29 +1,10 @@
-import { ArrowRight, Search, Sparkles, Star, ZoomIn } from "lucide-react";
+import { ArrowRight, Sparkles, Star, ZoomIn } from "lucide-react";
 import Link from "next/link";
 import { CourseGrid } from "@/components/course/CourseGrid";
+import { HeroSearchField } from "@/components/search/HeroSearchField";
 import { ExploreCoursesButton } from "@/components/ui/ExploreCoursesButton";
 import { Navbar } from "@/components/ui/Navigation";
 import { getCourses } from "@/sanity/lib/api";
-
-function HeroSearch() {
-  return (
-    <div className="relative w-full max-w-2xl">
-      <Search
-        size={20}
-        strokeWidth={2}
-        className="pointer-events-none absolute left-5 top-1/2 -translate-y-1/2 text-primary-400"
-      />
-      <input
-        readOnly
-        placeholder="Ask anything about your learning…"
-        className="h-14 w-full rounded-lg border border-neutral-600 bg-neutral-800/60 pl-14 pr-20 text-body-lg text-neutral-0 placeholder:text-neutral-300 outline-none focus:border-primary-500"
-      />
-      <kbd className="pointer-events-none absolute right-4 top-1/2 hidden -translate-y-1/2 rounded-md border border-neutral-600 px-2 py-1 text-small text-neutral-300 sm:block">
-        ⌘K
-      </kbd>
-    </div>
-  );
-}
 
 function Hero() {
   return (
@@ -58,7 +39,7 @@ function Hero() {
         </div>
 
         <div className="mt-8 flex w-full justify-center">
-          <HeroSearch />
+          <HeroSearchField />
         </div>
       </div>
     </section>
