@@ -34,6 +34,9 @@ yarn-error.log*
 .env*
 !.env.example
 
+# video ingestion pipeline output (regenerable; large; public transcript text)
+/video-documents.ndjson
+
 # vercel
 .vercel
 

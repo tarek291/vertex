@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "lib": ["ES2023"],
+    "moduleResolution": "bundler",
+    "noEmit": true,
+    "incremental": false,
+    "plugins": []
+  },
+  "include": ["ingest-videos/**/*.ts", "../lib/video.ts", "../sanity/env.ts"],
+  "exclude": ["node_modules"]
+}

@@ -15,6 +15,33 @@
 export declare const internalGroqTypeReferenceTo: unique symbol;
 
 // Source: schema.json
+export type Video = {
+  _id: string;
+  _type: "video";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  videoId?: string;
+  provider?: "youtube" | "vimeo" | "bunny";
+  url?: string;
+  title?: string;
+  duration?: number;
+  chaptersSource?: "youtube" | "synthesized" | "none";
+  chapters?: Array<{
+    startSeconds?: number;
+    label?: string;
+    _type: "videoChapter";
+    _key: string;
+  }>;
+  chunks?: Array<{
+    startSeconds?: number;
+    text?: string;
+    _type: "videoChunk";
+    _key: string;
+  }>;
+  ingestedAt?: string;
+};
+
 export type InstructorReference = {
   _ref: string;
   _type: "reference";
@@ -59,12 +86,16 @@ export type Course = {
   price?: number;
   popular?: boolean;
   studentCount?: number;
-  learningOutcomes?: Array<{
-    _key: string;
-  } & LearningOutcome>;
-  modules?: Array<{
-    _key: string;
-  } & Module>;
+  learningOutcomes?: Array<
+    {
+      _key: string;
+    } & LearningOutcome
+  >;
+  modules?: Array<
+    {
+      _key: string;
+    } & Module
+  >;
 };
 
 export type SanityImageCrop = {
@@ -110,36 +141,41 @@ export type Lesson = {
   };
   duration?: number;
   keyPoints?: Array<string>;
-  notes?: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "normal" | "h2" | "h3" | "blockquote";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  } | {
-    asset?: SanityImageAssetReference;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt?: string;
-    _type: "image";
-    _key: string;
-  }>;
+  notes?: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "normal" | "h2" | "h3" | "blockquote";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | {
+        asset?: SanityImageAssetReference;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt?: string;
+        _type: "image";
+        _key: string;
+      }
+  >;
   proTip?: string;
-  resources?: Array<{
-    _key: string;
-  } & Resource>;
+  resources?: Array<
+    {
+      _key: string;
+    } & Resource
+  >;
 };
 
 export type Instructor = {
@@ -201,9 +237,11 @@ export type Module = {
   _type: "module";
   title?: string;
   summary?: string;
-  lessons?: Array<{
-    _key: string;
-  } & LessonReference>;
+  lessons?: Array<
+    {
+      _key: string;
+    } & LessonReference
+  >;
 };
 
 export type Resource = {
@@ -318,7 +356,30 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type AllSanitySchemaTypes = InstructorReference | CategoryReference | SanityImageAssetReference | Course | SanityImageCrop | SanityImageHotspot | Slug | Lesson | Instructor | Category | LessonReference | Module | Resource | LearningOutcome | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
+export type AllSanitySchemaTypes =
+  | Video
+  | InstructorReference
+  | CategoryReference
+  | SanityImageAssetReference
+  | Course
+  | SanityImageCrop
+  | SanityImageHotspot
+  | Slug
+  | Lesson
+  | Instructor
+  | Category
+  | LessonReference
+  | Module
+  | Resource
+  | LearningOutcome
+  | SanityImagePaletteSwatch
+  | SanityImagePalette
+  | SanityImageDimensions
+  | SanityImageMetadata
+  | SanityFileAsset
+  | SanityAssetSourceData
+  | SanityImageAsset
+  | Geopoint;
 
 // Source: ../sanity/queries/categories.ts
 // Variable: CATEGORIES_QUERY
@@ -657,39 +718,42 @@ export type LESSON_BY_SLUG_QUERY_RESULT = {
   } | null;
   keyPoints: Array<string> | null;
   proTip: string | null;
-  notes: Array<{
-    children?: Array<{
-      marks?: Array<string>;
-      text?: string;
-      _type: "span";
-      _key: string;
-    }>;
-    style?: "blockquote" | "h2" | "h3" | "normal";
-    listItem?: "bullet" | "number";
-    markDefs?: Array<{
-      href?: string;
-      _type: "link";
-      _key: string;
-    }>;
-    level?: number;
-    _type: "block";
-    _key: string;
-  } | {
-    asset: {
-      _id: string;
-      url: string | null;
-      metadata: {
-        lqip: string | null;
-        dimensions: SanityImageDimensions | null;
-      } | null;
-    } | null;
-    media?: unknown;
-    hotspot?: SanityImageHotspot;
-    crop?: SanityImageCrop;
-    alt: string | "";
-    _type: "image";
-    _key: string;
-  }> | null;
+  notes: Array<
+    | {
+        children?: Array<{
+          marks?: Array<string>;
+          text?: string;
+          _type: "span";
+          _key: string;
+        }>;
+        style?: "blockquote" | "h2" | "h3" | "normal";
+        listItem?: "bullet" | "number";
+        markDefs?: Array<{
+          href?: string;
+          _type: "link";
+          _key: string;
+        }>;
+        level?: number;
+        _type: "block";
+        _key: string;
+      }
+    | {
+        asset: {
+          _id: string;
+          url: string | null;
+          metadata: {
+            lqip: string | null;
+            dimensions: SanityImageDimensions | null;
+          } | null;
+        } | null;
+        media?: unknown;
+        hotspot?: SanityImageHotspot;
+        crop?: SanityImageCrop;
+        alt: string | "";
+        _type: "image";
+        _key: string;
+      }
+  > | null;
   resources: Array<{
     _key: string;
     type: "code" | "download" | "link" | "pdf" | "video" | null;
@@ -721,3 +785,19 @@ export type LESSON_SLUGS_QUERY_RESULT = Array<{
   slug: string | null;
 }>;
 
+// Query TypeMap
+import "@sanity/client";
+declare module "@sanity/client" {
+  interface SanityQueries {
+    '\n  *[_type == "category" && defined(slug.current)] | order(title asc) {\n    \n  _id,\n  title,\n  "slug": slug.current,\n  description\n\n  }\n': CATEGORIES_QUERY_RESULT;
+    '\n  *[_type == "category" && slug.current == $slug][0] {\n    \n  _id,\n  title,\n  "slug": slug.current,\n  description\n,\n    "courses": *[_type == "course" && references(^._id)]\n      | order(popular desc, _createdAt desc) {\n      \n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  level,\n  price,\n  popular,\n  studentCount,\n  "coverImage": coverImage{ \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions }\n  },\n  "alt": coalesce(alt, "")\n },\n  "instructor": instructor->{ _id, name, "slug": slug.current },\n  "category": category->{ _id, title, "slug": slug.current },\n  "moduleCount": count(modules),\n  "lessonCount": count(modules[].lessons[]),\n  "totalDurationSeconds": math::sum(modules[].lessons[]->duration)\n\n    }\n  }\n': CATEGORY_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "course" && defined(slug.current)]\n    | order(popular desc, _createdAt desc) {\n    \n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  level,\n  price,\n  popular,\n  studentCount,\n  "coverImage": coverImage{ \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions }\n  },\n  "alt": coalesce(alt, "")\n },\n  "instructor": instructor->{ _id, name, "slug": slug.current },\n  "category": category->{ _id, title, "slug": slug.current },\n  "moduleCount": count(modules),\n  "lessonCount": count(modules[].lessons[]),\n  "totalDurationSeconds": math::sum(modules[].lessons[]->duration)\n\n  }\n': COURSES_QUERY_RESULT;
+    '\n  *[_type == "course" && defined(slug.current) && popular == true]\n    | order(_createdAt desc)[0...6] {\n    \n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  level,\n  price,\n  popular,\n  studentCount,\n  "coverImage": coverImage{ \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions }\n  },\n  "alt": coalesce(alt, "")\n },\n  "instructor": instructor->{ _id, name, "slug": slug.current },\n  "category": category->{ _id, title, "slug": slug.current },\n  "moduleCount": count(modules),\n  "lessonCount": count(modules[].lessons[]),\n  "totalDurationSeconds": math::sum(modules[].lessons[]->duration)\n\n  }\n': FEATURED_COURSES_QUERY_RESULT;
+    '\n  *[_type == "course" && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    summary,\n    level,\n    price,\n    popular,\n    studentCount,\n    "coverImage": coverImage{ \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions }\n  },\n  "alt": coalesce(alt, "")\n },\n    "instructor": instructor->{ \n  _id,\n  name,\n  "slug": slug.current,\n  "photo": photo{ \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions }\n  },\n  "alt": coalesce(alt, "")\n },\n  expertise\n },\n    "category": category->{\n      _id,\n      title,\n      "slug": slug.current,\n      description\n    },\n    learningOutcomes[]{\n      _key,\n      icon,\n      title,\n      description\n    },\n    "moduleCount": count(modules),\n    "lessonCount": count(modules[].lessons[]),\n    "totalDurationSeconds": math::sum(modules[].lessons[]->duration),\n    modules[]{\n      _key,\n      title,\n      summary,\n      "lessons": lessons[]->{ \n  _id,\n  title,\n  "slug": slug.current,\n  duration,\n  freePreview,\n  studentCount,\n  "poster": poster{ \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions }\n  },\n  "alt": coalesce(alt, "")\n },\n  keyPoints\n }\n    }\n  }\n': COURSE_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "course" && defined(slug.current)]{ "slug": slug.current }\n': COURSE_SLUGS_QUERY_RESULT;
+    '\n  *[_type == "instructor" && defined(slug.current)] | order(name asc) {\n    _id,\n    name,\n    "slug": slug.current,\n    "photo": photo{ \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions }\n  },\n  "alt": coalesce(alt, "")\n },\n    expertise\n  }\n': INSTRUCTORS_QUERY_RESULT;
+    '\n  *[_type == "instructor" && slug.current == $slug][0] {\n    \n  _id,\n  name,\n  "slug": slug.current,\n  "photo": photo{ \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions }\n  },\n  "alt": coalesce(alt, "")\n },\n  expertise\n,\n    bio,\n    "courses": *[_type == "course" && references(^._id)]\n      | order(popular desc, _createdAt desc) {\n      \n  _id,\n  title,\n  "slug": slug.current,\n  summary,\n  level,\n  price,\n  popular,\n  studentCount,\n  "coverImage": coverImage{ \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions }\n  },\n  "alt": coalesce(alt, "")\n },\n  "instructor": instructor->{ _id, name, "slug": slug.current },\n  "category": category->{ _id, title, "slug": slug.current },\n  "moduleCount": count(modules),\n  "lessonCount": count(modules[].lessons[]),\n  "totalDurationSeconds": math::sum(modules[].lessons[]->duration)\n\n    }\n  }\n': INSTRUCTOR_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "lesson" && slug.current == $slug][0] {\n    _id,\n    title,\n    "slug": slug.current,\n    videoUrl,\n    duration,\n    freePreview,\n    studentCount,\n    "poster": poster{ \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions }\n  },\n  "alt": coalesce(alt, "")\n },\n    keyPoints,\n    proTip,\n    notes[]{\n      ...,\n      _type == "image" => { \n  asset->{\n    _id,\n    url,\n    metadata { lqip, dimensions }\n  },\n  "alt": coalesce(alt, "")\n }\n    },\n    resources[]{\n      _key,\n      type,\n      title,\n      description,\n      url\n    },\n    "course": *[_type == "course" && references(^._id)][0]{\n      _id,\n      title,\n      "slug": slug.current,\n      "instructor": instructor->{ _id, name, "slug": slug.current },\n      modules[]{\n        _key,\n        title,\n        "lessonIds": lessons[]._ref\n      }\n    }\n  }\n': LESSON_BY_SLUG_QUERY_RESULT;
+    '\n  *[_type == "lesson" && defined(slug.current)]{ "slug": slug.current }\n': LESSON_SLUGS_QUERY_RESULT;
+  }
+}

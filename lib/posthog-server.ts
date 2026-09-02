@@ -20,6 +20,7 @@ export function getPostHogClient(): PostHog | null {
       host,
       flushAt: 1,
       flushInterval: 0,
+      enableExceptionAutocapture: true,
     });
   }
   return posthogClient;
